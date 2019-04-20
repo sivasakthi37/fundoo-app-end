@@ -18,6 +18,7 @@ const redis = require('redis');
 const bcrypt = require('bcrypt');
 const express = require('express');
 const app = express();
+var jwt = require('jsonwebtoken');
 /**
  * @description:login is used to check the data is present in database or not..
  * @param {request from front end} req 
@@ -47,46 +48,50 @@ exports.login = (req, res) => {
             res.status(422).send(response);
         }
         else {
-
-
             // create and connect redis client to local instance.
-
-
             // Extract the query from url and trim trailing spaces
             //  const query = (req.body.email+req.body._id).trim();
             // Build the Wikipedia API url
-
             const redisKey = req.body.email + req.body.userId;
             console.log("rediskey from front", redisKey);
             // Try fetching the result from Redis first in case we have it cached
             return client.get(redisKey, (err, result) => {
-
                 // If that key exist in Redis store
-                // console.log("result==>", result);
-                // console.log("hasi");
+                console.log("result==>", result);
+
                 console.log("redis cacheee entered first");
                 if (result) {
-                    bcrypt.compare(req.body.password, req.body.tokenpassword)
-                        .then(function (res1) {
-                            if (res1) {
-                                console.log("redis cacheee entered");
-                                console.log('redis cache data ==>' + result);
-                                const resultJSON = JSON.parse(result);
-                                return res.status(200).send(resultJSON);
-                            }
-                            else {
-                                var response = {}
-                                /**
-                                 * @description:pass the request data to sevices....
-                                 */
-                                console.log("Incorrect password in redis");
-                                
-                                response.sucess = false;
-                                response.result = "Incorrect password";
-                                res.status(500).send(response);
 
-                            }
-                        })
+                    const resultJSON = JSON.parse(result);
+                    //   console.log("resultJSON==>",resultJSON);
+                    jwt.verify(resultJSON, 'secretkey-Authentication', (err, decoded) => {
+                        if (err) {
+                            console.log("token invalid--->", err);
+                        }
+                        else {
+                            bcrypt.compare(req.body.password, decoded.payload.password)
+                                .then(function (res1) {
+                                    if (res1) {
+                                        console.log("redis cacheee entered");
+                                        console.log('redis cache data ==>' + result);
+                                        const resultJSON = JSON.parse(result);
+                                        return res.status(200).send(resultJSON);
+                                    }
+                                    else {
+                                        var response = {}
+                                        /**
+                                         * @description:pass the request data to sevices....
+                                         */
+                                        console.log("Incorrect password in redis");
+
+                                        response.sucess = false;
+                                        response.result = "Incorrect password";
+                                        res.status(500).send(response);
+
+                                    }
+                                })
+                        }
+                    })
 
                 }
                 else {
@@ -289,8 +294,4 @@ exports.deleteredis = (req, res) => {
             res.status(500).send("Cannot delete");
         }
     })
-
-
-
-
 }

@@ -82,7 +82,7 @@ class LoginInput extends Component {
                 email: this.state.email,
                 password: this.state.password,
                 userId: localStorage.getItem("userId"),
-                tokenpassword: localStorage.getItem("password"),
+               
             }
             //  console.log("data in login page==>", data);
             userLogin(data)
@@ -100,7 +100,6 @@ class LoginInput extends Component {
                             localStorage.setItem('userId', decoded.payload.user_id);
                             localStorage.setItem('token', res.data);
                             localStorage.setItem('profilepic', decoded.payload.profilepic);
-                            localStorage.setItem('password', decoded.payload.password);
                             this.setState({ open: true, errormsg: "Login sucessfull!!!!" });
                             
                             this.props.props.history.push("/dashBoard")

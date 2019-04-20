@@ -50,7 +50,7 @@ exports.getnote = (req, res) => {
 
             responce.sucess = true;
             responce.result = result;
-
+            client.setex(redisKey1, 3600, JSON.stringify(result));
             res.status(200).send(responce);
         }
     })

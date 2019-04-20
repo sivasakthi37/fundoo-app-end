@@ -6,7 +6,6 @@
   "scripts": {
     "test": "mocha",
     "built": "node server.js"
-
   },
   "author": "sivasakthi",
   "license": "ISC",
@@ -28,6 +27,7 @@
     "nodemailer": "^5.1.1",
     "nodemon": "^1.18.10",
     "redis": "^2.8.0",
+    "redis-rejson": "^1.0.0",
     "request": "^2.88.0",
     "response-time": "^2.3.2",
     "should": "^13.2.3"

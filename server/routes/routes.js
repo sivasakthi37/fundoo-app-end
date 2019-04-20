@@ -34,7 +34,6 @@ route.post('/forgetpassword', users.finduser);
 
 route.post('/reset/:token', Middleware.checkToken, users.setPassword);
 
-
 route.post('/createNote', Middleware.checkTokenAuthentication, notes.createnote);
 
 route.get('/getnotes', Middleware.checkTokenAuthentication, notes.getnote);
@@ -80,4 +79,5 @@ route.post('/saveLabelToNote', Middleware.checkTokenAuthentication,notes.saveLab
 route.post('/deleteLabelToNote', Middleware.checkTokenAuthentication,notes.deleteLabelToNote)
 
 route.post('/logout',Middleware.checkTokenAuthentication,users.deleteredis)
+
 module.exports = route; 
