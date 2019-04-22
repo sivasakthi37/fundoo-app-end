@@ -90,7 +90,8 @@ class Drawercomponent extends Component {
             navigateReminder: false,
             navigateArchived: false,
             navigateTrashed: false,
-            label: []
+            label: [],
+            notesnavigater:false,
 
         }
     }
@@ -134,18 +135,25 @@ class Drawercomponent extends Component {
             navigateReminder: false,
             navigateArchived: false,
             navigateTrashed: false,
+            notesnavigater:true,
+
         })
-        this.props.makeLabelFalse();
-        this.props.handleNavigation(this.state.navigateReminder, this.state.navigateArchived, this.state.navigateTrashed);
+        if(this.props.qanda===false){
+            this.props.makeLabelFalse();
+            }
+        this.props.handleNavigation(this.state.navigateReminder, this.state.navigateArchived, this.state.navigateTrashed,this.state.notesnavigater,false);
     }
     async handleArchived() {
         await this.setState({
             navigateReminder: false,
             navigateArchived: true,
-            navigateTrashed: false
+            navigateTrashed: false,
+            notesnavigater:false,
         })
-        this.props.makeLabelFalse();
-        this.props.handleNavigation(this.state.navigateReminder, this.state.navigateArchived, this.state.navigateTrashed);
+        if(this.props.qanda===false){
+            this.props.makeLabelFalse();
+            }
+        this.props.handleNavigation(this.state.navigateReminder, this.state.navigateArchived, this.state.navigateTrashed,this.state.notesnavigater,false);
     }
     async handleTrashed() {
         console.log("ashdbhasbdbasdbasdasd");
@@ -153,10 +161,13 @@ class Drawercomponent extends Component {
         await this.setState({
             navigateReminder: false,
             navigateArchived: false,
-            navigateTrashed: true
+            navigateTrashed: true,
+            notesnavigater:false,
         })
-        this.props.makeLabelFalse();
-        this.props.handleNavigation(this.state.navigateReminder, this.state.navigateArchived, this.state.navigateTrashed);
+        if(this.props.qanda===false){
+            this.props.makeLabelFalse();
+            }
+        this.props.handleNavigation(this.state.navigateReminder, this.state.navigateArchived, this.state.navigateTrashed,this.state.notesnavigater,false);
     }
     async handlerReminder() {
 
@@ -164,10 +175,13 @@ class Drawercomponent extends Component {
             navigateReminder: true,
             navigateArchived: false,
             navigateTrashed: false,
+            notesnavigater:false,
 
         })
+        if(this.props.qanda===false){
         this.props.makeLabelFalse();
-        this.props.handleNavigation(this.state.navigateReminder, this.state.navigateArchived, this.state.navigateTrashed);
+        }
+        this.props.handleNavigation(this.state.navigateReminder, this.state.navigateArchived, this.state.navigateTrashed,this.state.notesnavigater,false);
     }
     render() {
         const { classes } = this.props;

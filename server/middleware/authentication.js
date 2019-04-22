@@ -6,6 +6,31 @@ var jwt = require('jsonwebtoken');
 /**
  * @description:it is used to check your token is valid or not...
  */
+
+const responseTime = require('response-time')
+
+const redis = require('redis');
+
+
+const express = require('express');
+const app = express();
+
+/**
+ * @description:login is used to check the data is present in database or not..
+ * @param {request from front end} req 
+ * @param {response from backend} res 
+ */
+
+const client = redis.createClient();
+
+// Print redis errors to the console
+client.on('error', (err) => {
+    console.log("Error " + err);
+});
+
+app.use(responseTime());
+
+
 exports.checkToken = (req,res,next) => {
   // console.log("request of authorization ",req.body);
     var tokens = req.headers['token']; 
@@ -68,10 +93,24 @@ exports.checkTokenAuthentication= (req,res,next) => {
                    * @description:add the decoded to your req data....
                    */
                   req.decoded = decoded;
+
+                  var userID= req.decoded.payload.user_id;
                 //  console.log("request in request==>",req.decoded);
-                  console.log("your token is valid",);
-                  
-                  next();
+                  console.log("your token is valid");
+
+                //   client.del(userID, (err, response) => {
+                //     if (response == 1) {
+                //         console.log("redis  Deleted Successfully!")
+                //         next();
+            
+                //         res.status(200).send("Deleted Successfully!");
+                //     } else {
+                //         console.log("Cannot delete")
+                //         res.status(500).send("Cannot delete");
+                //         next();
+                //     }
+                // })
+                next();     
               }
           });
       } 

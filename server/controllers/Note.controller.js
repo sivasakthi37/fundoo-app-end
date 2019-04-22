@@ -1,6 +1,29 @@
 
 var noteservices = require('../services/Noteservices');
 
+const redis = require('redis');
+
+const responseTime = require('response-time')
+const express = require('express');
+const app = express();
+
+/**
+ * @description:login is used to check the data is present in database or not..
+ * @param {request from front end} req 
+ * @param {response from backend} res 
+ */
+
+const client = redis.createClient();
+
+// Print redis errors to the console
+client.on('error', (err) => {
+    console.log("Error " + err);
+});
+
+app.use(responseTime());
+
+
+
 exports.createnote = (req, res) => {
     console.log("req in controleer", req.body);
 
@@ -39,23 +62,36 @@ exports.getnote = (req, res) => {
     /**
      * @description:pass the request data to sevices....
      */
-    noteservices.noteget(req, (err, result) => {
-        if (err) {
-            responce.sucess = false;
-            responce.result = err;
-            res.status(500).send(responce);
+   var userID= req.decoded.payload.user_id;
+
+    return client.get(userID, (err, result) => {
+        // If that key exist in Redis store
+    //    console.log("result==>", result);
+        console.log("redis cacheee entered first");
+        if (result) {
+           //console.log("json", JSON.parse(result));
+             JSON.parse(result);
+            console.log('redis cache data ==>' + result);
+           const resultJSON = JSON.parse(result);
+           responce.result =  resultJSON ;
+            return res.status(200).send(responce);
         }
-        else {
-
-
-            responce.sucess = true;
-            responce.result = result;
-            client.setex(redisKey1, 3600, JSON.stringify(result));
-            res.status(200).send(responce);
+        else{
+            noteservices.noteget(req, (err, result) => {
+                if (err) {
+                    responce.sucess = false;
+                    responce.result = err;
+                    res.status(500).send(responce);
+                }
+                else {
+                    responce.sucess = true;
+                    responce.result = result;
+                //    client.setex(userID, 3600, JSON.stringify(result));
+                    res.status(200).send(responce);
+                }
+            })
         }
     })
-
-
 }
 
 

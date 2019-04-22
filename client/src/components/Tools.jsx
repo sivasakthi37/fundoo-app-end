@@ -46,11 +46,13 @@ class Tools extends Component {
                         noteID={this.props.noteID}
                     />
                     <MoreOptions
-                     
+                        questionstatus={this.props.questionstatus}
                         addLabelToNote={this.props.addLabelToNote}
                         trashNote={this.props.trashNote}
                         noteID={this.props.noteID}
-
+                        notetitle={this.props.notetitle}
+                        notedescription={this.props.notedescription}
+                        // qadetails={this.props.qadetails}
                     />
                     {/* <Collaborator/> */}
                 </div>

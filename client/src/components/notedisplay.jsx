@@ -414,7 +414,7 @@ class Cards extends Component {
                 />
             )
         }
-        else {
+        else if (this.props.notenav) {
             return (
                 <div>
                     <div>
@@ -543,7 +543,7 @@ class Cards extends Component {
                                                     />
                                                     :
                                                     null}
-                                          
+
                                                 {noteArray[key].label.length > 0 ?
                                                     noteArray[key].label.map((key1, index) =>
                                                         <div key={index} >
@@ -558,6 +558,8 @@ class Cards extends Component {
                                             </span>
                                             <div id="displaycontentdiv">
                                                 <Tools
+
+
                                                     addLabelToNote={this.addLabelToNote}
 
                                                     date={noteArray[key].reminder}
@@ -571,6 +573,8 @@ class Cards extends Component {
                                                     archiveNote={this.archiveNote}
                                                     archiveStatus={noteArray[key].archive}
                                                     trashNote={this.trashNote}
+                                                    questionstatus={this.props.questionstatus}
+                                                    // qadetails={this.props.qadetails}
                                                 />
                                             </div>
                                         </div >
@@ -586,6 +590,15 @@ class Cards extends Component {
 
             );
         }
+        // else {
+
+        //     return(
+
+        //         <h1>hai Question and answer</h1>
+        //     )
+
+
+        // }
     }
 }
 export default Cards;

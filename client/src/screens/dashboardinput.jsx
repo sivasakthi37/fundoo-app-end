@@ -16,6 +16,7 @@ import Tooltip from '@material-ui/core/Tooltip';
 import Views from '../components/views';
 import Drawercomponent from '../components/Drawermenu';
 import Notecreate from '../components/noteCreate';
+import QandA from '../components/QandA';
 //const drawerWidth = 10;
 //
 
@@ -77,10 +78,15 @@ class Dashboardinput extends React.Component {
             archive: false,
             trash: false,
             note: [],
+            notenav: true,
             cardStyles: false,
+            qanda: false,
+            title: "",
+            description: ""
         };
 
         this.noteToCards = React.createRef();
+       
     }
     /**
  * @description:This method is used to handle the Toggele event.. 
@@ -106,21 +112,33 @@ class Dashboardinput extends React.Component {
         //   console.log("dfgbhnjmkedrtghjk");
 
     }
-    handleNavigation = (reminder, archive, trash) => {
+    questionstatus = (title, description) => {
+        console.log("title in qand a dashboard", title);
+        
+        this.setState(state => ({
+            qanda: !state.qanda,
+            title: title,
+            description: description
+        }))
+    }
+    
+    handleNavigation = (reminder, archive, trash, notes, qanda) => {
         console.log("handleNAvigation", reminder, archive, trash);
 
-        if (reminder === true || archive === true || trash === true) {
+        if (reminder === true || archive === true || trash === true || notes === true || qanda === true) {
 
             this.setState({
                 reminder: reminder,
                 archive: archive,
-                trash: trash
-            })
-        } else {
-            this.setState({
-                reminder: false,
-                archive: false,
-                trash: false
+                trash: trash,
+                notenav: notes,
+                qanda: qanda
+                //     })
+                // } else {
+                //     this.setState({
+                //         reminder: false,
+                //         archive: false,
+                //         trash: false
             })
         }
     }
@@ -129,7 +147,7 @@ class Dashboardinput extends React.Component {
         console.log("search labels", value);
         this.noteToCards.current.displayLabelledCards();
     }
-    makeLabelFalse=()=> {
+    makeLabelFalse = () => {
         this.noteToCards.current.makeLabelFalse();
     }
     render() {
@@ -197,6 +215,7 @@ class Dashboardinput extends React.Component {
                             handleNavigation={this.handleNavigation}
                             menustatus={this.state.open}
                             searchLabels={this.searchLabels}
+                            qanda={this.state.qanda}
                         />
                     </div>
                     <main
@@ -205,26 +224,43 @@ class Dashboardinput extends React.Component {
                         })}
                     >
                         <div className={classes.drawerHeader} />
-                        {this.state.archive || this.state.trash || this.state.search ?
-                            <Cards
-                                searchNote={this.state.search}
-                                noteProps={this.state.cardStyles}
-                                navigaterTrash={this.state.trash}
-                                navigateArchived={this.state.archive}
-                                ref={this.noteToCards}
+
+                        {this.state.qanda ? <div>
+                            <QandA
+
+                                questionstatus={this.questionstatus}
+                                title={this.state.title}
+                                description={this.state.description}
+                               
                             />
-                            :
-                            <div>
-                                <Notecreate currentnote={this.currentnote} />
-                                <Cards
-                                    labelValue={this.state.label}
-                                    searchNote={this.state.search}
-                                    navigaterReminder={this.state.reminder}
-                                    noteProps={this.state.cardStyles}
-                                    navigaterTrash={this.state.trash}
-                                    navigateArchived={this.state.archive}
-                                    ref={this.noteToCards}
-                                />
+                        </div> : <div>
+                                {this.state.archive || this.state.trash || this.state.search ?
+                                    <Cards
+                                        searchNote={this.state.search}
+                                        noteProps={this.state.cardStyles}
+                                        navigaterTrash={this.state.trash}
+                                        navigateArchived={this.state.archive}
+                                        notenav={this.state.notenav}
+                                        // qadetails={this.qadetails}
+                                        ref={this.noteToCards}
+                                    />
+                                    :
+                                    <div>
+                                        <Notecreate currentnote={this.currentnote} />
+                                        <Cards
+                                            questionstatus={this.questionstatus}
+                                            labelValue={this.state.label}
+                                            searchNote={this.state.search}
+                                            navigaterReminder={this.state.reminder}
+                                            noteProps={this.state.cardStyles}
+                                            navigaterTrash={this.state.trash}
+                                            navigateArchived={this.state.archive}
+                                            ref={this.noteToCards}
+                                            notenav={this.state.notenav}
+                                        // qadetails={this.qadetails}
+                                        />
+                                    </div>
+                                }
                             </div>
                         }
                     </main>

@@ -35,6 +35,7 @@
 .body {
     background-color: white;
 }
+
 @media only screen and (min-width: 0px) and (max-width: 600px) {
     .form-wrapper {
         width: 46%;
@@ -87,7 +88,6 @@
     #h1 {
         font-size: 166%;
         font-weight: 500;
-       
         margin: 0;
         padding-bottom: 0;
         padding-top: 10px;
@@ -467,24 +467,9 @@
     #savereminder {
         margin-left: 184px;
     }
-
 }
 
-
-
-
-
-
-
-
-
-
-
 /**********************************************************************************************************/
-
-
-
-
 
 @media only screen and (min-width: 600px) and (max-width: 1024px) {
     .form-wrapper {
@@ -917,12 +902,12 @@
     #savereminder {
         margin-left: 184px;
     }
-
 }
+
 /************************************   normal css***************************************************/
-  
+
 @media only screen and (min-width: 1024px) and (max-width: 1440px) {
-.form-wrapper {
+    .form-wrapper {
         width: 46%;
         height: 500px;
         display: flex;
@@ -973,7 +958,6 @@
     #h1 {
         font-size: 166%;
         font-weight: 500;
-    
         margin: 0;
         padding-bottom: 0;
         padding-top: 10px;
@@ -1352,5 +1336,9 @@
     }
     #savereminder {
         margin-left: 184px;
+    }
+    #closeqa {
+        position: relative;
+        left: 91%;
     }
 }

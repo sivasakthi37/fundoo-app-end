@@ -38,7 +38,6 @@ route.post('/createNote', Middleware.checkTokenAuthentication, notes.createnote)
 
 route.get('/getnotes', Middleware.checkTokenAuthentication, notes.getnote);
 
-
 route.put('/updateColor', Middleware.checkTokenAuthentication, notes.updatecolor);
 
 

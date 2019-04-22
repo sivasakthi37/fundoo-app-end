@@ -27,6 +27,7 @@ class MoreOptions extends Component {
             placement: null,
         }
         this.moreOptionsToAddLabels = React.createRef();
+        this.handlequestions=this.handlequestions.bind(this);
     }
     clickMoreOptions = (event) => {
         const { currentTarget } = event;
@@ -54,7 +55,10 @@ class MoreOptions extends Component {
             open: false
         })
     }
-
+     handlequestions=()=>{
+     this.props.questionstatus(this.props.notetitle,this.props.notedescription);
+ 
+    }
 
     handleClose = () => {
         this.setState(state => ({ open: !state.open }))
@@ -82,7 +86,7 @@ class MoreOptions extends Component {
 
                                             <MenuItem id="moreOptionsMenu" onClick={this.handleTrashedNotes}>Delete Note</MenuItem>
                                             <MenuItem id="moreOptionsMenu" onClick={this.handleLabelsOnNote}>Add Label</MenuItem>
-
+                                            <MenuItem id="moreOptionsMenu" onClick={this.handlequestions} >Ask A Question</MenuItem>
                                         </div>
                                     </ClickAwayListener>
                                 </Paper>
