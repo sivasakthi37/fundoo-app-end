@@ -79,4 +79,9 @@ route.post('/deleteLabelToNote', Middleware.checkTokenAuthentication,notes.delet
 
 route.post('/logout',Middleware.checkTokenAuthentication,users.deleteredis)
 
+route.put('/qandA', Middleware.checkTokenAuthentication, notes.updateqandA)
+
+
+route.post('/getqandadata',Middleware.checkTokenAuthentication,notes.getqandadetail)
+
 module.exports = route; 

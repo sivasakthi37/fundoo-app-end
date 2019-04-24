@@ -64,19 +64,19 @@ exports.getnote = (req, res) => {
      */
    var userID= req.decoded.payload.user_id;
 
-    return client.get(userID, (err, result) => {
-        // If that key exist in Redis store
-    //    console.log("result==>", result);
-        console.log("redis cacheee entered first");
-        if (result) {
-           //console.log("json", JSON.parse(result));
-             JSON.parse(result);
-            console.log('redis cache data ==>' + result);
-           const resultJSON = JSON.parse(result);
-           responce.result =  resultJSON ;
-            return res.status(200).send(responce);
-        }
-        else{
+    // return client.get(userID, (err, result) => {
+    //     // If that key exist in Redis store
+    // //    console.log("result==>", result);
+    //     console.log("redis cacheee entered first");
+    //     if (result) {
+    //        //console.log("json", JSON.parse(result));
+    //          JSON.parse(result);
+    //         console.log('redis cache data ==>' + result);
+    //        const resultJSON = JSON.parse(result);
+    //        responce.result =  resultJSON ;
+    //         return res.status(200).send(responce);
+    //     }
+    //     else{
             noteservices.noteget(req, (err, result) => {
                 if (err) {
                     responce.sucess = false;
@@ -90,8 +90,8 @@ exports.getnote = (req, res) => {
                     res.status(200).send(responce);
                 }
             })
-        }
-    })
+        // }
+    // })
 }
 
 
@@ -578,7 +578,73 @@ exports.updateLabel = (req, res) => {
 
 
 
+exports.updateqandA = (req, res) => {
+    try {
+       // console.log("in Controller", req.body);
+
+        var res_result = {};
+        
+        // req.checkBody('labelID', 'label should not be empty').not().isEmpty();
+        // req.checkBody('editlabel', 'editlabel should not be empty').not().isEmpty();
+        // var errors = req.validationErrors();
+        // var response = {};
+        // if (errors) {
+        //     response.success = false;
+        //     response.error = errors;
+        //     return res.status(422).send(response);
+
+        // } else {
+            const questionData = {
+                question: req.body.question,
+                noteId: req.body.noteId
+            }
+            noteservices.updateqanda(questionData, (err, result) => {
+                if (err) {
+                    res_result.status = false;
+                    res_result.error = err;
+                    res.status(500).send(res_result);
+                }
+                else {
+
+                    res_result.status = true;
+                    res_result.data = result;
+                    res.status(200).send(res_result);
+                }
+            })
+        }
+    // }
+    catch (error) {
+        res.send(error)
+    }
+}
 
 
 
+exports.getqandadetail = (req, res) => {
+    try {
+        console.log("in Controller", req.body);
 
+        var res_result = {};
+
+        const getqandadetails = {
+            noteID: req.body.data,
+        }
+        noteservices.getqandadetail(getqandadetails, (err, result) => {
+            if (err) {
+                res_result.status = false;
+                res_result.error = err;
+                res.status(500).send(res_result);
+            }
+            else {
+
+                res_result.status = true;
+                res_result.data = result;
+                res.status(200).send(res_result);
+            }
+        })
+
+    }
+    catch (error) {
+        res.send(error)
+    }
+}

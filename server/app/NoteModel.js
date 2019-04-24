@@ -1,4 +1,9 @@
 const mongoose = require('mongoose');
+// const EventEmitter = require('events');
+
+// class MyEmitter extends EventEmitter {}
+// const myEmitter = new MyEmitter();
+
 const Schema = mongoose.Schema;
 const NoteSchema = mongoose.Schema({
     userId: {
@@ -40,7 +45,13 @@ const NoteSchema = mongoose.Schema({
             type: String,
             ref: 'labeSchema',
         }
-    ]
+    ],
+QandA:[
+    {
+        type:String,
+       
+    }
+]
 },
     {
         timestamps: true
@@ -48,7 +59,7 @@ const NoteSchema = mongoose.Schema({
 
 const Note = mongoose.model('note', NoteSchema);
 
-class noteModel {}
+class noteModel { }
 
 noteModel.prototype.CreateNote = (req, res) => {
     console.log("request in model==>", req.body);
@@ -70,7 +81,13 @@ noteModel.prototype.CreateNote = (req, res) => {
             res(err);
         } else {
             console.log("Note saved sucessfully");
-            res(null, result);
+
+           
+            // myEmitter.emit('event', 'a', 'b');
+
+
+            
+           res(null, result);
         }
     })
 }
@@ -151,10 +168,7 @@ noteModel.prototype.isArchived = (paramID, paramData, res) => {
                 return res(null, paramData)
             }
         });
-
 }
-
-
 
 noteModel.prototype.setReminder = (paramID, paramData, res) => {
 
@@ -464,8 +478,65 @@ noteModel.prototype.updateLabel = (changedLabel, callback) => {
         });
 };
 
-//module.exports = new labelModel;
+
+noteModel.prototype.updateqanda= (data, callback) => {
+   
+
+    console.log("dataaaa in model-->",data);
+    
+   var  question= data.question;
+    noteId = data.noteId
+   
+
+    Note.findOneAndUpdate(
+        {
+            _id:  noteId
+        },
+        {
+            $push: {
+                QandA: question,
+            }
+        },
+        (err, result) => {
+            if (err) {
+                callback(err)
+            } else {
+                console.log("in model success",result);
+                let res = result.QandA;
+                res.push(question);
+                return callback(null, res)
+            }
+        });
+};
+
+
+noteModel.prototype.getqandadetails = (id, callback) => {
+     console.log("q nad a data-->",id);
+
+     Note.findOne({ _id: id.noteID }, (err, result) => {
+        console.log("id",err);
+        if (err) {
+            callback(err)
+        } else {
+            console.log("status", result)
+
+           
+
+           
+            return callback(null, result)
+        }
+    })
+
+    
+}
+module.exports = function(Events) {
+    // Set up Event listeners here
+}
+
+
+
 module.exports = new noteModel;
+
 
 
 

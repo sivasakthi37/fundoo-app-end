@@ -82,7 +82,8 @@ class Dashboardinput extends React.Component {
             cardStyles: false,
             qanda: false,
             title: "",
-            description: ""
+            description: "",
+            noteId:""
         };
 
         this.noteToCards = React.createRef();
@@ -112,13 +113,14 @@ class Dashboardinput extends React.Component {
         //   console.log("dfgbhnjmkedrtghjk");
 
     }
-    questionstatus = (title, description) => {
-        console.log("title in qand a dashboard", title);
+    questionstatus = (title, description,noteId) => {
+        console.log("title in qand a dashboard", noteId);
         
         this.setState(state => ({
             qanda: !state.qanda,
             title: title,
-            description: description
+            description: description,
+            noteId:noteId
         }))
     }
     
@@ -231,6 +233,7 @@ class Dashboardinput extends React.Component {
                                 questionstatus={this.questionstatus}
                                 title={this.state.title}
                                 description={this.state.description}
+                                noteId={this.state.noteId}
                                
                             />
                         </div> : <div>

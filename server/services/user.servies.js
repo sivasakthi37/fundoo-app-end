@@ -17,6 +17,8 @@ exports.loginusers = (req, res) => {
             }
             else {
                 console.log("service is working fine");
+
+                
                 res(null, data);
             }
 

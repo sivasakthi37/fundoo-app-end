@@ -56,7 +56,7 @@ class MoreOptions extends Component {
         })
     }
      handlequestions=()=>{
-     this.props.questionstatus(this.props.notetitle,this.props.notedescription);
+     this.props.questionstatus(this.props.notetitle,this.props.notedescription,this.props.noteID);
  
     }
 

@@ -13,6 +13,8 @@ import TrashNavigator from './TrashNavigator';
 import ReminderNavigater from './reminderNavigater';
 import Draggable from 'react-draggable';
 import { updateColor, updateArchiveStatus, otherArray, archiveArray, setReminder, isTrashed, trashArray, deleteNote, remiderArray, updateTitle, updateDescription, updatePin, pinArray, imageupdate, saveLabel } from '../services/note.services';
+ 
+
 
 class Cards extends Component {
     constructor() {
@@ -558,10 +560,7 @@ class Cards extends Component {
                                             </span>
                                             <div id="displaycontentdiv">
                                                 <Tools
-
-
                                                     addLabelToNote={this.addLabelToNote}
-
                                                     date={noteArray[key].reminder}
                                                     notetitle={noteArray[key].title}
                                                     notedescription={noteArray[key].description}

@@ -47,7 +47,7 @@ export function isTrashed(data) {
 }
 
 export function deleteNote(data) {
-  //  console.log("hai data", data);
+    //  console.log("hai data", data);
 
     return axios.post('/deleteNote', data, {
         headers: { 'token': localStorage.getItem('token') }
@@ -55,7 +55,7 @@ export function deleteNote(data) {
     })
 }
 
-export function  updateTitle(data) {
+export function updateTitle(data) {
     console.log("hai data", data);
 
     return axios.put('/editTitle', data, {
@@ -64,7 +64,7 @@ export function  updateTitle(data) {
     })
 }
 
-export function  updateDescription(data) {
+export function updateDescription(data) {
     //console.log("hai data", data);
 
     return axios.put('/editDescription', data, {
@@ -73,7 +73,7 @@ export function  updateDescription(data) {
     })
 }
 
-export function  updatePin(data) {
+export function updatePin(data) {
     //console.log("hai data", data);
 
     return axios.put('/updatePin', data, {
@@ -82,7 +82,7 @@ export function  updatePin(data) {
     })
 }
 
-export function  uploadimage(data) {
+export function uploadimage(data) {
     //console.log("hai data", data);
 
     return axios.put('/GettingS3url', data, {
@@ -91,35 +91,35 @@ export function  uploadimage(data) {
     })
 }
 
-export function  imageupdate(data) {
-   // console.log("hai data", data.get());
+export function imageupdate(data) {
+    // console.log("hai data", data.get());
 
     return axios.put('/uploadImage', data, {
         headers: { 'token': localStorage.getItem('token') }
 
     })
 }
-export function saveLabel(url,data) {
+export function saveLabel(url, data) {
     return axios(url, {
         method: "POST",
         headers: {
             "token": localStorage.getItem("token")
         },
-        data:data
+        data: data
     })
 }
 
-export function addLabel(url,data) {
-    console.log("create note call",data);
-    
+export function addLabel(url, data) {
+    console.log("create note call", data);
 
-    
+
+
     return axios(url, {
         method: "POST",
         headers: {
             "token": localStorage.getItem("token")
         },
-        data:data
+        data: data
     })
 }
 export function getLabels() {
@@ -132,30 +132,50 @@ export function getLabels() {
         const result = response.data.data;
         return result;
     })
-}   
+}
 export function deleteLabel(data) {
-    
+
     return axios('/deleteLabel', {
         method: "POST",
         headers: {
             "token": localStorage.getItem("token")
         },
-        data:data
+        data: data
     })
 }
 export function updateLabel(data) {
-    
+
     return axios('/updateLabel', {
         method: "PUT",
         headers: {
             "token": localStorage.getItem("token")
         },
-        data:data
+        data: data
+    })
+}
+
+export function qandA(data) {
+
+    return axios('/qandA', {
+        method: "PUT",
+        headers: {
+            "token": localStorage.getItem("token")
+        },
+        data: data
     })
 }
 
 
+export function getqandadata(data) {
 
+    return axios('/getqandadata', {
+        method: "POST",
+        headers: {
+            "token": localStorage.getItem("token")
+        },
+        data: data
+    })
+}
 
 /******************************************************************* */
 export function archiveArray(notesData) {
@@ -170,18 +190,18 @@ export function archiveArray(notesData) {
 export function remiderArray(notesData) {
     let reminderArr = [];
     for (let i = 0; i < notesData.length; i++) {
-        if (notesData[i].reminder!=="" && !notesData[i].trash && !notesData[i].archive) {
+        if (notesData[i].reminder !== "" && !notesData[i].trash && !notesData[i].archive) {
             reminderArr.push(notesData[i]);
         }
     }
-    
+
     return reminderArr;
 }
 export function otherArray(notesData) {
     let otherArr = [];
     for (let i = 0; i < notesData.length; i++) {
-       // console.log("!notesData"+i+".archive",!notesData[i].archive);
-        
+        // console.log("!notesData"+i+".archive",!notesData[i].archive);
+
         if (!notesData[i].pinned && !notesData[i].archive && !notesData[i].trash) {
             otherArr.push(notesData[i]);
         }

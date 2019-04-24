@@ -1,4 +1,11 @@
 var notemodels = require('../app/NoteModel');
+
+// const EventEmitter = require('events');
+
+// class MyEmitter extends EventEmitter {}
+// const myEmitter = new MyEmitter();
+
+
 exports.notecreate = (req, res) => {
     try {
         notemodels.CreateNote(req, (err, data) => {
@@ -8,6 +15,11 @@ exports.notecreate = (req, res) => {
             }
             else {
                 console.log("service is working fine");
+                // myEmitter.on('event', (a, b) => {
+                //     console.log(a, b, this);
+                //     // Prints: a b {}
+                //   });
+
                 res(null, data);
             }
         })
@@ -300,6 +312,32 @@ exports.updateLabel = (labelData, callback) => {
     //  console.log("in services",labelData);
 
     notemodels.updateLabel(labelData, (err, result) => {
+        if (err) {
+            callback(err);
+        } else {
+            return callback(null, result)
+        }
+    })
+}
+
+exports.updateqanda = async (qandaData, callback) => {
+    //  console.log("in services",labelData);
+
+   await notemodels.updateqanda(qandaData, (err, result) => {
+        if (err) {
+            callback(err);
+        } else {
+            return callback(null, result)
+        }
+    })
+}
+
+
+
+exports.getqandadetail = (qandaData, callback) => {
+    //  console.log("in services",labelData);
+
+    notemodels.getqandadetails(qandaData, (err, result) => {
         if (err) {
             callback(err);
         } else {
