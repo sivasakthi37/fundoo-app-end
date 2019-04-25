@@ -1364,4 +1364,15 @@
         /* justify-content: space-between; */
         flex-wrap: wrap;
     }
+    #h1qanda {
+        margin-top: 0%;
+    }
+    #replaybutton1 {
+        margin-top: 20%;
+    }
+    #qnadadivdisplay {}
+    #textareaqanda1 {
+        width: 540px;
+        height: 157px;
+    }
 }

@@ -44,29 +44,38 @@ exports.noteget = (req, res) => {
     }
     catch (err) {
         console.log("error in services:", err);
-
-
     }
 }
-
-
-exports.updatecolor = (paramID, paramData, res) => {
-    try {
-        notemodels.updatecolor(paramID, paramData, (err, data) => {
-            if (err) {
-                console.log("err in service..");
-                res(err);
-            }
-            else {
-                console.log("service is working fine");
-                res(null, data);
-            }
+exports.updatecolor = (paramID, paramData) => {
+    return new Promise((resolve, reject) => { 
+    notemodels.updatecolor(paramID, paramData)
+        .then((result) => {
+            console.log("service is working fine promisses",result);
+            resolve(result);
+        }).catch((err) => {
+            console.log("err in service..");
+            reject(err);
         })
-    }
-    catch (err) {
-        console.log("error in services:", err);
-    }
+    });
 }
+
+// exports.updatecolor = (paramID, paramData, res) => {
+//     try {
+//         notemodels.updatecolor(paramID, paramData, (err, data) => {
+//             if (err) {
+//                 console.log("err in service..");
+//                 res(err);
+//             }
+//             else {
+//                 console.log("service is working fine");
+//                 res(null, data);
+//             }
+//         })
+//     }
+//     catch (err) {
+//         console.log("error in services:", err);
+//     }
+// }
 exports.deleteNote = (req, res) => {
     try {
         notemodels.deleteNote(req, (err, data) => {
@@ -270,9 +279,6 @@ exports.deleteLabelToNote = (paramData, callback) => {
     })
 }
 
-
-
-
 exports.addLabel = (labelData, callback) => {
     ///  console.log("in services",labelData);
 
@@ -323,7 +329,7 @@ exports.updateLabel = (labelData, callback) => {
 exports.updateqanda = async (qandaData, callback) => {
     //  console.log("in services",labelData);
 
-   await notemodels.updateqanda(qandaData, (err, result) => {
+    await notemodels.updateqanda(qandaData, (err, result) => {
         if (err) {
             callback(err);
         } else {
@@ -331,8 +337,6 @@ exports.updateqanda = async (qandaData, callback) => {
         }
     })
 }
-
-
 
 exports.getqandadetail = (qandaData, callback) => {
     //  console.log("in services",labelData);

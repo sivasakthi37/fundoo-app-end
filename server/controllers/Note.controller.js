@@ -56,6 +56,15 @@ exports.createnote = (req, res) => {
         })
     }
 }
+
+
+
+
+
+
+
+
+
 exports.getnote = (req, res) => {
 
     var responce = {}
@@ -64,19 +73,19 @@ exports.getnote = (req, res) => {
      */
    var userID= req.decoded.payload.user_id;
 
-    // return client.get(userID, (err, result) => {
-    //     // If that key exist in Redis store
-    // //    console.log("result==>", result);
-    //     console.log("redis cacheee entered first");
-    //     if (result) {
-    //        //console.log("json", JSON.parse(result));
-    //          JSON.parse(result);
-    //         console.log('redis cache data ==>' + result);
-    //        const resultJSON = JSON.parse(result);
-    //        responce.result =  resultJSON ;
-    //         return res.status(200).send(responce);
-    //     }
-    //     else{
+    return client.get(userID, (err, result) => {
+        // If that key exist in Redis store
+        console.log("result inn redis==>", result);
+        console.log("redis cacheee entered first");
+        if (result) {
+           //console.log("json", JSON.parse(result));
+             JSON.parse(result);
+            console.log('redis cache data ==>' + result);
+           const resultJSON = JSON.parse(result);
+           responce.result =  resultJSON ;
+            return res.status(200).send(responce);
+        }
+        else{
             noteservices.noteget(req, (err, result) => {
                 if (err) {
                     responce.sucess = false;
@@ -86,15 +95,22 @@ exports.getnote = (req, res) => {
                 else {
                     responce.sucess = true;
                     responce.result = result;
-                //    client.setex(userID, 3600, JSON.stringify(result));
+                   client.setex(userID, 3600, JSON.stringify(result));
                     res.status(200).send(responce);
                 }
             })
-        // }
-    // })
+        }
+    })
 }
 
+// exports.updatecolor=(req)=>{
 
+//     return new Promise((resolve, reject) => {
+
+
+
+//     });
+// }
 
 exports.updatecolor = (req, res) => {
     console.log("color  req in color api=> ", req.body);
@@ -107,20 +123,16 @@ exports.updatecolor = (req, res) => {
      */
     noteID = req.body.noteID;
     color = req.body.color;
-    noteservices.updatecolor(noteID, color, (err, result) => {
-        if (err) {
-            responce.sucess = false;
-            responce.result = err;
-            res.status(500).send(responce);
-        }
-        else {
+    noteservices.updatecolor(noteID, color)  
+        .then((result)=>{
             responce.sucess = true;
             responce.result = result;
             res.status(200).send(responce);
-        }
-    })
-
-
+        }).catch((err)=>{
+            responce.sucess = false;
+            responce.result = err;
+            res.status(500).send(responce);
+        })
 }
 exports.deleteNote = (req, res) => {
     req.checkBody('noteID', 'noteID should notr be empty').not().isEmpty();
@@ -581,19 +593,9 @@ exports.updateLabel = (req, res) => {
 exports.updateqandA = (req, res) => {
     try {
        // console.log("in Controller", req.body);
-
         var res_result = {};
         
-        // req.checkBody('labelID', 'label should not be empty').not().isEmpty();
-        // req.checkBody('editlabel', 'editlabel should not be empty').not().isEmpty();
-        // var errors = req.validationErrors();
-        // var response = {};
-        // if (errors) {
-        //     response.success = false;
-        //     response.error = errors;
-        //     return res.status(422).send(response);
-
-        // } else {
+       
             const questionData = {
                 question: req.body.question,
                 noteId: req.body.noteId
@@ -612,13 +614,11 @@ exports.updateqandA = (req, res) => {
                 }
             })
         }
-    // }
+   
     catch (error) {
         res.send(error)
     }
 }
-
-
 
 exports.getqandadetail = (req, res) => {
     try {
@@ -642,7 +642,6 @@ exports.getqandadetail = (req, res) => {
                 res.status(200).send(res_result);
             }
         })
-
     }
     catch (error) {
         res.send(error)

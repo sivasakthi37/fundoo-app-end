@@ -7,13 +7,14 @@ import ArchivedNavigator from './ArchivedNavigator';
 import SearchedNotes from './SearchedNotes';
 import Chip from '@material-ui/core/Chip';
 import DialogBox from './Dialog';
+import Divider from '@material-ui/core/Divider';
 import '../App.css';
 import Pinned from './Pinned';
 import TrashNavigator from './TrashNavigator';
 import ReminderNavigater from './reminderNavigater';
 import Draggable from 'react-draggable';
 import { updateColor, updateArchiveStatus, otherArray, archiveArray, setReminder, isTrashed, trashArray, deleteNote, remiderArray, updateTitle, updateDescription, updatePin, pinArray, imageupdate, saveLabel } from '../services/note.services';
- 
+
 
 
 class Cards extends Component {
@@ -573,10 +574,19 @@ class Cards extends Component {
                                                     archiveStatus={noteArray[key].archive}
                                                     trashNote={this.trashNote}
                                                     questionstatus={this.props.questionstatus}
-                                                    // qadetails={this.props.qadetails}
+                                                // qadetails={this.props.qadetails}
                                                 />
                                             </div>
                                         </div >
+                                        <div id="qnadadivdisplay" > 
+                                            {noteArray[key].QandA.length > 0 ?
+                                                <div>
+                                                    <Divider />
+                                                    <h3  > Question Asked ? </h3>
+                                                  <p > {noteArray[key].QandA[0]}</p>
+                                                </div>
+                                                : null}
+                                        </div>
                                     </Card>
                                     {/* </Draggable> */}
                                 </div>
