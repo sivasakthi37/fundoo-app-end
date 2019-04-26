@@ -229,7 +229,6 @@ class Dashboardinput extends React.Component {
 
                         {this.state.qanda ? <div>
                             <QandA
-
                                 questionstatus={this.questionstatus}
                                 title={this.state.title}
                                 description={this.state.description}

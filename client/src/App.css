@@ -1375,4 +1375,14 @@
         width: 540px;
         height: 157px;
     }
+    #answerqnadadiv {
+        display: flex;
+        flex-direction: row;
+        margin-left: 12%;
+        margin-top: 3%;
+    }
+    #answerp {
+        margin-left: 2%;
+        margin-top: 1%;
+    }
 }

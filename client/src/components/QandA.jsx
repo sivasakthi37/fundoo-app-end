@@ -43,12 +43,12 @@ class QansA extends Component {
             qnaddata: [],
             qnaddata1: [],
             question1: "",
+            answer: [],
             reply: false,
-            replayanswer:""
+            replayanswer: ""
         }
     }
     componentWillMount() {
-
         var data = {
             data: this.props.noteId,
         }
@@ -60,13 +60,14 @@ class QansA extends Component {
                     qnaddata: result.data.data,
                     qnaddata1: result.data.data.QandA
                 })
-      for (let i = 1; i < this.state.qnaddata1.length; i++) {
-
-        
-    
-         }
-
-
+                let answerArray = [];
+                for (let i = 1; i < this.state.qnaddata1.length; i++) {
+                    await answerArray.push(this.state.qnaddata1[i]);
+                }
+                console.log("answerArray ---->", answerArray)
+                await this.setState({
+                    answer: answerArray
+                })
                 console.log("qnaddata in state-->", this.state.qnaddata);
                 console.log(" qnaddata1 in state-->", this.state.qnaddata1);
             })
@@ -90,12 +91,13 @@ class QansA extends Component {
     };
 
     replay = () => {
-        this.setState({ reply:  !this.state.reply });
+        this.setState({ reply: !this.state.reply });
 
 
     }
-   
+
     handleask = () => {
+        this.replay()
         console.log("this.props.noteid in qnd a-->", this.props.noteId);
 
         var data = {
@@ -103,11 +105,36 @@ class QansA extends Component {
             noteId: this.props.noteId,
         }
         qandA(data)
-            .then((res) => {
-                console.log("result for q and A==>", res.data.data[0]);
-                this.setState({
+            .then(async (res) => {
+                console.log("result for q and A==>", res.data.data.length);
+                await this.setState({
                     qnaddata1: res.data.data
                 })
+                var lastquestion = this.state.qnaddata1.length;
+                console.log("lastquestion==>", lastquestion);
+                if (lastquestion > 1) {
+                    var runanswer = this.state.qnaddata1[lastquestion - 1];
+                    console.log(" runanswer runanswer runanswer", runanswer);
+
+                    this.setState({
+                        answer: [...this.state.answer, runanswer]
+                    })
+                }
+
+
+
+
+
+                // let answerArray = [];
+                // for (let i = 1; i < this.state.qnaddata1.length; i++) {
+                //     await  answerArray.push(this.state.qnaddata1[i]);
+                //   }
+                //   console.log("answerArray ---->", answerArray)
+                //  await this.setState({
+                //       answer: answerArray
+                //   })
+
+
             })
             .catch((err) => {
 
@@ -116,7 +143,7 @@ class QansA extends Component {
             })
     }
     render() {
-        
+
         const userDetails = localStorage.getItem('username');
         const initial = userDetails.substring(0, 1);
         return (
@@ -156,7 +183,7 @@ class QansA extends Component {
                                     <img src={reply} alt="logo" />
                                 </Tooltip>
                             </IconButton>
-                            <IconButton onClick={() => this.like()}>
+                            <IconButton >
                                 <Tooltip title="Like">
                                     <img src={like} alt="logo" />
                                 </Tooltip>
@@ -173,20 +200,37 @@ class QansA extends Component {
                                             rows="4"
                                             margin="normal"
                                             variant="outlined"
-                                         onChange={this.handleChange('question')}
+                                            onChange={this.handleChange('question')}
                                         />
-                                    
-                                        <Button id="replaybutton1" variant="contained" color="primary" 
-                                         onClick={this.handleask} 
+
+                                        <Button id="replaybutton1" variant="contained" color="primary"
+                                            onClick={this.handleask}
                                         >
                                             replay
                                        </Button>
                                     </div>
                                 </div>
                                 :
-                               null
+                                null
                             }
-                             "React Component is an independent, reusable code and it contains HTML + Javascript. Components data will be stored in component's State. This state can be modified based on user action or other action. when a component state is changed React will re-render the component to the browser."
+                            {this.state.answer.map((key) =>
+                                <div id="answerqnadadiv">
+                                    <Avatar style={{ width: "40px", height: "40px", backgroundColor: "purple" }}
+                                    >
+                                        {localStorage.getItem('profilepic') !== "" ?
+                                            <img style={{
+                                                width: "40px", height: "40px"
+                                            }} src={localStorage.getItem('profilepic')} alt="change Profile pic"></img>
+                                            :
+                                            <b style={{ fontSize: "16px" }}>{initial}</b>
+                                        }
+                                    </Avatar>
+                                    <div id="answerp" >
+                                        {key}
+                                    </div>
+                                </div>
+                            )}
+                           
                         </div>
                     </div> :
                     <div>
@@ -215,11 +259,6 @@ class QansA extends Component {
                         </MuiThemeProvider>
                     </div>
                 }
-
-
-
-
-
             </div >
         )
     }
